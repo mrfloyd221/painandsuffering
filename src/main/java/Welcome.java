@@ -15,7 +15,7 @@ public class Welcome {
         return "Hello, add your name to request please. Like /welcome?name=XXX";
     }
     @RequestMapping("/welcome")
-    String welcome(@RequestParam(value="name", defaultValue="World") String name){
+    String welcome(@RequestParam(value="name", defaultValue="friend") String name){
         return String.format("Your welcome, %s", name);
     }
 
