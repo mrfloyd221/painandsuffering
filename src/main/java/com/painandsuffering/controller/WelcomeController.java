@@ -1,7 +1,5 @@
-package com.painandsuffering.web;
+package com.painandsuffering.controller;
 
-import org.springframework.boot.*;
-import org.springframework.boot.autoconfigure.*;
 import org.springframework.web.bind.annotation.*;
 /**
  * Created by mrflo on 26.05.2017.
