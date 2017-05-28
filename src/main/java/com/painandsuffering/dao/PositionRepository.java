@@ -2,6 +2,7 @@ package com.painandsuffering.dao;
 
 import com.painandsuffering.model.Position;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 /**
@@ -9,18 +10,32 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class PositionRepository implements PositionDAO {
+    List<Position> positions;
+
+    public PositionRepository() {
+        this.positions = new ArrayList<Position>();
+        positions.add(new Position(0, "pizza"));
+        positions.add(new Position(1, "coffee"));
+        positions.add(new Position(2, "tea"));
+        positions.add(new Position(3, "whiskey"));
+    }
+
     @Override
     public Position getPositionById(int id) {
-        return null;
+        return positions.get(id);
     }
 
     @Override
     public Position getPositionByName(String name) {
+        for(Position pos : positions){
+            if(pos.getName().equals(name))
+                return pos;
+        }
         return null;
     }
 
     @Override
     public List<Position> getAllPositions() {
-        return null;
+        return positions;
     }
 }
