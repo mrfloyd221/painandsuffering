@@ -25,8 +25,8 @@ public class PositionController {
     }
     private
     @RequestMapping(value="/shop/positions/{id}", method = RequestMethod.GET , produces = "application/json")
-    String getPositionById(@PathVariable int id) {
-        return positionsRepository.getPositionById(id).toString();
+    Position getPositionById(@PathVariable int id) {
+        return positionsRepository.getPositionById(id);
     }
     @JsonView(Views.Public.class)
     @RequestMapping(value="/shop/positions/", method = RequestMethod.GET, produces = "application/json")
