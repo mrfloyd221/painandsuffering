@@ -67,4 +67,10 @@ public class OrderRepository implements OrderDAO{
     public List<Order> getAllOrders() {
         return orders;
     }
+    public void Add(Order order){
+        orders.add(order);
+    }
+    public void DeleteById(int id){
+        orders.remove(id);
+    }
 }

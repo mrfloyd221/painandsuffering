@@ -9,6 +9,7 @@ public class Position implements Serializable{
     private int id;
     private String name;
 
+    public Position(){}
     public Position(int id, String name) {
         this.id = id;
         this.name = name;
@@ -31,7 +32,7 @@ public class Position implements Serializable{
     }
     @Override
     public String toString(){
-        return"{\"id\":" + this.id + ",\"name\":"+this.name+"}";
+        return"{\"id\":" + this.id + ",\"name\":\""+this.name+"\"}";
 
     }
 }

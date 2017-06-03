@@ -38,4 +38,16 @@ public class UserRepository implements UserDAO{
     public List<User> getAllUsers() {
         return users;
     }
+    public void Add(User user){
+        users.add(user);
+    }
+    public void DeleteById(int id){
+        users.remove(id);
+    }
+    public void DeleteByName(String name){
+        for(User user : users){
+            if(user.getName().equals(name))
+                users.remove(user);
+        }
+    }
 }

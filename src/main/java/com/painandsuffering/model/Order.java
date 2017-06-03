@@ -1,6 +1,9 @@
 package com.painandsuffering.model;
 
+
+
 import java.io.Serializable;
+
 
 /**
  * Created by mrflo on 26.05.2017.
@@ -12,6 +15,7 @@ public class Order implements Serializable{
     private boolean complete;
 
     public Order(int id, int user, int position, boolean complete) {
+
         this.id = id;
         this.userId = user;
         this.positionId = position;
@@ -52,6 +56,6 @@ public class Order implements Serializable{
 
     @Override
     public String toString(){
-        return "{\"id\":" + this.id + ",\"user\":"+this.userId+",\"position\":"+this.positionId+",\"complete\":"+this.complete+"}";
+        return "{\"id\":" + this.id + ",\"user\":\""+this.userId+"\",\"position\":\""+this.positionId+"\",\"complete\":"+this.complete+"}";
     }
 }

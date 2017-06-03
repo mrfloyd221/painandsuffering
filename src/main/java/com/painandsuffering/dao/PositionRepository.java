@@ -38,4 +38,16 @@ public class PositionRepository implements PositionDAO {
     public List<Position> getAllPositions() {
         return positions;
     }
+    public void Add(Position position){
+        positions.add(position);
+    }
+    public void DeleteById(int id){
+        positions.remove(id);
+    }
+    public void DeleteByName(String name){
+        for(Position pos : positions){
+            if(pos.getName().equals(name))
+                positions.remove(pos);
+        }
+    }
 }
