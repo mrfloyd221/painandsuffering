@@ -1,12 +1,17 @@
 package com.painandsuffering.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.painandsuffering.controller.Views;
+
 import java.io.Serializable;
 
 /**
  * Created by mrflo on 26.05.2017.
  */
 public class Position implements Serializable{
+    @JsonView(Views.Public.class)
     private int id;
+    @JsonView(Views.Public.class)
     private String name;
 
     public Position(){}
