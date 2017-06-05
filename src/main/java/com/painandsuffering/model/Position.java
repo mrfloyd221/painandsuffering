@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * Created by mrflo on 26.05.2017.
  */
-public class Position implements Serializable{
+public class Position{
     @JsonView(Views.Public.class)
     private int id;
     @JsonView(Views.Public.class)
@@ -35,9 +35,5 @@ public class Position implements Serializable{
     public String getName() {
         return name;
     }
-    @Override
-    public String toString(){
-        return"{\"id\":" + this.id + ",\"name\":\""+this.name+"\"}";
 
-    }
 }

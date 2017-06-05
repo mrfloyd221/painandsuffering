@@ -6,7 +6,7 @@ package com.painandsuffering.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-public class User implements Serializable {
+public class User{
     private Integer id;
     private String name;
     private List<Integer> orders;
@@ -35,19 +35,5 @@ public class User implements Serializable {
     public List<Integer> getAllOrdersId(){
         return orders;
     }
-    @Override
-    public String toString(){
-        StringBuilder ordersList = new StringBuilder();
-        if(this.orders.isEmpty()){
-            ordersList.append("[]");
-        } else{
-            ordersList.append('[');
-            for(int order : orders){
-                ordersList.append(order+"\",");
-            }
-            ordersList.deleteCharAt(ordersList.lastIndexOf(","));
-            ordersList.append(']');
-        }
-        return "{\"id\":" + this.id + ",\"firstName\":"+this.name+",\"orders\":"+ordersList+"}";
-    }
+
 }

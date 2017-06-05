@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * Created by mrflo on 26.05.2017.
  */
-public class Order implements Serializable{
+public class Order{
     private int id;
     private int userId;
     private int positionId;
@@ -54,8 +54,5 @@ public class Order implements Serializable{
         this.complete = complete;
     }
 
-    @Override
-    public String toString(){
-        return "{\"id\":" + this.id + ",\"user\":\""+this.userId+"\",\"position\":\""+this.positionId+"\",\"complete\":"+this.complete+"}";
-    }
+
 }
