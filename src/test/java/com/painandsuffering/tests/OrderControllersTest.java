@@ -10,8 +10,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.junit.Before;
 import org.springframework.web.context.WebApplicationContext;
-
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class OrderControllersTest {
@@ -33,9 +37,9 @@ public class OrderControllersTest {
 
     }
     public void getOrder() throws Exception {
-        this.mockMvc.perform(get("/accounts/1").accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
+        this.mockMvc.perform(get("/shop/orders/1").accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
-                .andExpect(jsonPath("$.name").value("Lee"));
+                .andExpect(content().contentType("application/javascript"))
+                .andExpect(jsonPath("$.id").value(1));
     }
 }
