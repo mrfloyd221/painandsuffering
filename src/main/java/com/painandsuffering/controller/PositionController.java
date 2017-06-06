@@ -15,7 +15,7 @@ package com.painandsuffering.controller;
 
 @RestController
 public class PositionController {
-    @Autowired
+
     private PositionRepository positionsRepository;
 
     private PositionController(){
