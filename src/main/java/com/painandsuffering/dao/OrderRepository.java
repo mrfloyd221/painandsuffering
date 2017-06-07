@@ -67,10 +67,21 @@ public class OrderRepository implements OrderDAO{
     public List<Order> getAllOrders() {
         return orders;
     }
-    public void Add(Order order){
-        orders.add(order);
+    public boolean Add(Order order){
+        return orders.add(order);
     }
     public void DeleteById(int id){
+
         orders.remove(id);
+    }
+    public boolean Update(int id, Order order){
+        if(orders.get(id) != null){
+            orders.get(id).setPositionId(order.getPositionId());
+            orders.get(id).setUserId(order.getUserId());
+            orders.get(id).setComplete(order.isComplete());
+            return true;
+        }
+        return false;
+
     }
 }
