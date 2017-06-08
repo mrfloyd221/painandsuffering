@@ -1,7 +1,9 @@
 package com.painandsuffering.controller;
 
+import com.painandsuffering.dao.OrderDAO;
 import com.painandsuffering.dao.OrderRepository;
 import com.painandsuffering.model.Order;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +13,10 @@ import java.util.List;
 @RestController
 public class OrderController {
 
-    OrderRepository orderRepository;
-    OrderController(){
-        orderRepository = new OrderRepository();
+    private OrderDAO orderRepository;
+    @Autowired
+    OrderController(OrderDAO dao){
+        orderRepository = dao;
     }
     @RequestMapping(value ="/shop/orders/", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public List<Order> getAllOrders(){

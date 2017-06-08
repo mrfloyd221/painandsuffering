@@ -8,14 +8,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.io.Serializable;
-import javax.persistence.*;
+import javax.persistence.*;import javax.persistence.*;
 
 /**
  * Created by mrflo on 26.05.2017.
  */
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Order{
 
    @Getter @Setter private int id;

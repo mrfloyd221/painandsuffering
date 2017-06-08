@@ -11,4 +11,7 @@ public interface OrderDAO {
     List<Order> getAllOrders();
     List<Order> getCompletedOrders();
     List<Order> getUnCompletedOrders();
+    boolean Add(Order order);
+    boolean Update(int id, Order order);
+    void DeleteById(int id);
 }
