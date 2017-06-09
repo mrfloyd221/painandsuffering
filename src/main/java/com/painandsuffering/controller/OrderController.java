@@ -47,8 +47,9 @@ public class OrderController {
     public ResponseEntity<Order> deleteOrderById(@PathVariable int id){
         try{
             orderRepository.DeleteById(id);
-            return new ResponseEntity<Order>(orderRepository.getOrderById(id), HttpStatus.OK);
+            return new ResponseEntity<Order>(HttpStatus.OK);
         } catch (Exception ex){
+            System.out.println(ex.getMessage());
             return new ResponseEntity<Order>(HttpStatus.BAD_REQUEST);
         }
 
