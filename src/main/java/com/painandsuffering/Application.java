@@ -9,16 +9,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+
 import java.util.Arrays;
 
 
 @SpringBootApplication
+@EnableAutoConfiguration
+@ComponentScan
 public class Application{
     public static void main(String[] args) throws Exception {
-        System.setProperty("spring.datasource.driverClassName", "org.postgresql.Driver");
-        System.setProperty("spring.datasource.url", "jdbc:postgresql://192.168.99.100:32768/shopdb");
-        System.setProperty("spring.datasource.username", "admin");
-        System.setProperty("spring.datasource.password", "admin");
+
         SpringApplication.run(Application.class, args);
     }
 }

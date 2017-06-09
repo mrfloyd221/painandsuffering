@@ -2,6 +2,7 @@ package com.painandsuffering.dao;
 
 import com.painandsuffering.model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -26,76 +27,70 @@ public class OrderDbRepository implements OrderDAO{
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public OrderDbRepository(DataSource dataSource) {
-       try{
-           Class.forName("org.postgresql.Driver");
-       }catch (Exception ex){
-           System.out.println(ex.getMessage());
-       }
+    public OrderDbRepository(JdbcTemplate jdbcTemplate) {
 
-        jdbcTemplate = new JdbcTemplate(dataSource);
+        this.jdbcTemplate = jdbcTemplate;
     }
+
     @Override
     public Order getOrderById(int id) {
-        return null;
+
+        String sql;
+        sql = "SELECT * FROM orders WHERE id="+id+";";
+        return jdbcTemplate.query(sql, new RowMapper<Order>(){
+            @Override
+            public Order mapRow(ResultSet rs, int i) throws SQLException {
+                return mapOrder(rs);
+            }
+        }).get(0);
     }
 
-    @Override
-    public List<Order> getOrdersByUserId(int userId) {
-        return null;
-    }
 
-    @Override
-    public List<Order> getOrdersByPositionId(int positionId) {
-        return null;
+    private Order mapOrder(ResultSet rs) throws SQLException{
+        Order aOrder = new Order();
+        aOrder.setId(rs.getInt("id"));
+        aOrder.setUserId(rs.getInt("user_id"));
+        aOrder.setPositionId(rs.getInt("position_Id"));
+        aOrder.setComplete(rs.getBoolean("complete"));
+        return aOrder;
     }
-
     @Override
     public List<Order> getAllOrders() {
         String sql;
         sql = "SELECT * FROM orders;";
         List<Order> listContact = jdbcTemplate.query(sql, new RowMapper<Order>() {
-
             @Override
             public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
-                Order aOrder = new Order();
-
-                aOrder.setId(rs.getInt("id"));
-                aOrder.setUserId(rs.getInt("user_id"));
-                aOrder.setPositionId(rs.getInt("position_Id"));
-                aOrder.setComplete(rs.getBoolean("complete"));
-
-
-                return aOrder;
+                return mapOrder(rs);
             }
-
         });
-
         return listContact;
     }
 
-    @Override
-    public List<Order> getCompletedOrders() {
-        return null;
-    }
 
-    @Override
-    public List<Order> getUnCompletedOrders() {
-        return null;
-    }
 
     @Override
     public boolean Add(Order order) {
-        return false;
+        String sql;
+        sql = String.format("INSERT INTO orders(user_id,position_id,complete) VALUES (%d,%d,%s)" ,order.getUserId(),order.getPositionId(), order.isComplete());
+        this.jdbcTemplate.update(sql);
+        return true;
     }
 
     @Override
     public boolean Update(int id, Order order) {
-        return false;
+        String sql;
+        sql ="UPDATE orders SET user_id = ?,position_id = ?, complete = ? WHERE id=?;";
+        this.jdbcTemplate.update(sql, order.getUserId(), order.getPositionId(), order.isComplete(), id);
+        return true;
+
     }
 
     @Override
     public void DeleteById(int id) {
+        String sql;
+        sql = "DELETE FROM orders WHERE id=?";
+        jdbcTemplate.update(sql, id);
 
     }
 }
