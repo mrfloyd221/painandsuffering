@@ -33,18 +33,15 @@ public class OrderDbRepository implements OrderDAO{
     }
 
     @Override
-    public Order getOrderById(int id) {
-
-        String sql;
-        sql = "SELECT * FROM orders WHERE id="+id+";";
-        return jdbcTemplate.query(sql, new RowMapper<Order>(){
+    public Order getOrderById(int id){
+        Order result = jdbcTemplate.queryForObject("SELECT * FROM orders WHERE id=?", new RowMapper<Order>() {
             @Override
-            public Order mapRow(ResultSet rs, int i) throws SQLException {
-                return mapOrder(rs);
+            public Order mapRow(ResultSet resultSet, int i) throws SQLException {
+                return mapOrder(resultSet);
             }
-        }).get(0);
+        }, id);
+        return result;
     }
-
 
     private Order mapOrder(ResultSet rs) throws SQLException{
         Order aOrder = new Order();
@@ -73,7 +70,7 @@ public class OrderDbRepository implements OrderDAO{
     public boolean Add(Order order) {
         String sql;
         sql = String.format("INSERT INTO orders(user_id,position_id,complete) VALUES (%d,%d,%s)" ,order.getUserId(),order.getPositionId(), order.isComplete());
-        this.jdbcTemplate.update(sql);
+        this.jdbcTemplate.update("INSERT INTO orders(user_id,position_id,complete) VALUES (?, ?, ?)" ,order.getUserId(),order.getPositionId(), order.isComplete());
         return true;
     }
 

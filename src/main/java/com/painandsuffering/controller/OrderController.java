@@ -33,6 +33,7 @@ public class OrderController {
         try{
             return new ResponseEntity<Order>(orderRepository.getOrderById(id), HttpStatus.OK);
         } catch (Exception ex){
+            System.out.println(ex.getMessage());
             return new ResponseEntity<Order>(HttpStatus.BAD_REQUEST);
         }
     }
