@@ -56,9 +56,9 @@ public class OrderDbRepository implements OrderDAO{
         String sql;
         sql = "SELECT * FROM orders;";
         List<Order> listContact = jdbcTemplate.query(sql, new RowMapper<Order>() {
-            @Override
-            public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
-                return mapOrder(rs);
+                    @Override
+                    public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
+                        return mapOrder(rs);
             }
         });
         return listContact;
@@ -86,7 +86,7 @@ public class OrderDbRepository implements OrderDAO{
     @Override
     public void DeleteById(int id) {
         String sql;
-        sql = "DELETE FROM orders WHERE id=?";
+        sql = "DELETE FROM orders WHERE id=?;";
         jdbcTemplate.update(sql, id);
 
     }
