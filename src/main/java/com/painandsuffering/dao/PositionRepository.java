@@ -14,10 +14,10 @@ public class PositionRepository implements PositionDAO {
 
     public PositionRepository() {
         this.positions = new ArrayList<Position>();
-        positions.add(new Position(0, "pizza"));
-        positions.add(new Position(1, "coffee"));
-        positions.add(new Position(2, "tea"));
-        positions.add(new Position(3, "whiskey"));
+        positions.add(new Position(0, "pizza", 50));
+        positions.add(new Position(1, "coffee", 600));
+        positions.add(new Position(2, "tea", 55));
+        positions.add(new Position(3, "whiskey", 100));
     }
 
     @Override
@@ -32,9 +32,7 @@ public class PositionRepository implements PositionDAO {
                 return pos;
         }
         return null;
-    }
-
-    @Override
+    }    @Override
     public List<Position> getAllPositions() {
         return positions;
     }
