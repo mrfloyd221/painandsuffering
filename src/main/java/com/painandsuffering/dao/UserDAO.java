@@ -8,4 +8,7 @@ public interface UserDAO {
     User getUserByName(String Name);
     User getUserById(int id);
     List<User> getAllUsers();
+    boolean createUser(User user);
+    boolean updateUser(User user);
+    boolean deleteUser(int id);
 }

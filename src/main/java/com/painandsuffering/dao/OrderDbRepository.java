@@ -1,26 +1,21 @@
 package com.painandsuffering.dao;
 
 import com.painandsuffering.model.Order;
+import com.painandsuffering.model.Position;
+import com.painandsuffering.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
-import javax.xml.crypto.Data;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * Created by mrflo on 08.06.2017.
  */
-@Primary
+
 @Repository
 public class OrderDbRepository implements OrderDAO{
 
@@ -46,8 +41,8 @@ public class OrderDbRepository implements OrderDAO{
     private Order mapOrder(ResultSet rs) throws SQLException{
         Order aOrder = new Order();
         aOrder.setId(rs.getInt("id"));
-        aOrder.setUserId(rs.getInt("user_id"));
-        aOrder.setPositionId(rs.getInt("position_Id"));
+        aOrder.setUser(((User)rs.getObject("userId")));
+        aOrder.setPosition((Position)rs.getObject("positionId"));
         aOrder.setComplete(rs.getBoolean("complete"));
         return aOrder;
     }
@@ -67,27 +62,35 @@ public class OrderDbRepository implements OrderDAO{
 
 
     @Override
-    public boolean Add(Order order) {
-        String sql;
-        sql = String.format("INSERT INTO orders(user_id,position_id,complete) VALUES (%d,%d,%s)" ,order.getUserId(),order.getPositionId(), order.isComplete());
-        this.jdbcTemplate.update("INSERT INTO orders(user_id,position_id,complete) VALUES (?, ?, ?)" ,order.getUserId(),order.getPositionId(), order.isComplete());
+    public boolean createOrder(Order order) {
+        this.jdbcTemplate.update("INSERT INTO orders(user_id,position_id,complete) VALUES (?, ?, ?)" ,order.getUser().getId(),order.getPosition().getId(), order.isComplete());
         return true;
     }
 
     @Override
-    public boolean Update(int id, Order order) {
+    public boolean updateOrder(Order order) {
         String sql;
         sql ="UPDATE orders SET user_id = ?,position_id = ?, complete = ? WHERE id=?;";
-        this.jdbcTemplate.update(sql, order.getUserId(), order.getPositionId(), order.isComplete(), id);
+        this.jdbcTemplate.update(sql, order.getUser().getId(), order.getPosition().getId(), order.isComplete(), order.getId());
         return true;
 
     }
 
     @Override
-    public void DeleteById(int id) {
+    public boolean deleteOrder(int id) {
         String sql;
         sql = "DELETE FROM orders WHERE id=?;";
         jdbcTemplate.update(sql, id);
-
+        return true;
+    }
+    @Override
+    public List<Order> getOrdersByUserId(int userId){
+        List<Order> lisrOrders = jdbcTemplate.query("SELECT * FROM orders WHERE userId=?", new RowMapper<Order>() {
+            @Override
+            public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return mapOrder(rs);
+            }
+        });
+        return lisrOrders;
     }
 }

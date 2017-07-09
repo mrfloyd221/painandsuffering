@@ -15,12 +15,10 @@ package com.painandsuffering.controller;
 
 @RestController
 public class PositionController {
+    @Autowired
+    private PositionDAO positionsRepository;
 
-    private PositionRepository positionsRepository;
 
-    private PositionController(){
-        positionsRepository = new PositionRepository();
-    }
     private
     @RequestMapping(value="/shop/positions/{id}", method = RequestMethod.GET , produces = "application/json")
     Position getPositionById(@PathVariable int id) {
@@ -34,25 +32,20 @@ public class PositionController {
     @RequestMapping(value="/shop/positions/", method = RequestMethod.POST)
     ResponseEntity<Position> addNewPosition(@RequestBody Position pos){
 
-        if(positionsRepository.Add(pos))
+        if(positionsRepository.createPosition(pos))
         return new ResponseEntity<Position>(pos, HttpStatus.OK);
         return new ResponseEntity<Position>(pos, HttpStatus.BAD_REQUEST);
     }
-    @RequestMapping(value="/shop/positions/{id}", method = RequestMethod.PUT)
-    ResponseEntity<Position> updatePositionById(@PathVariable int id, @RequestBody Position pos){
-        if(positionsRepository.Update(id, pos))
+    @RequestMapping(value="/shop/positions/", method = RequestMethod.PUT)
+    ResponseEntity<Position> updatePositionById( @RequestBody Position pos){
+        if(positionsRepository.updatePosition(pos))
             return new ResponseEntity<Position>(pos, HttpStatus.OK);
         return new ResponseEntity<Position>(pos, HttpStatus.BAD_REQUEST);
     }
     @RequestMapping(value="/shop/positions/{id}", method = RequestMethod.DELETE)
     HttpStatus deletePositionById(@PathVariable int id){
-
-        positionsRepository.DeleteById(id);
+        positionsRepository.deletePosition(id);
         return HttpStatus.OK;
     }
-    @RequestMapping(value="/shop/positions/{name}", method = RequestMethod.DELETE, produces = "application/json")
-    boolean deletePositionByName(@PathVariable String name){
-        positionsRepository.DeleteByName(name);
-        return true;
-    }
+
 }

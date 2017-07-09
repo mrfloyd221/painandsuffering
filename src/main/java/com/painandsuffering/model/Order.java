@@ -1,24 +1,33 @@
 package com.painandsuffering.model;
 
-
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serializable;
-import javax.persistence.*;import javax.persistence.*;
 
+import javax.persistence.*;
 
 /**
- * Created by mrflo on 26.05.2017.
+ * Created by mrflo on 18.06.2017.
  */
-@AllArgsConstructor
+
 @NoArgsConstructor
-public class Order{
-   @Getter @Setter private int id;
-   @Getter @Setter private int userId;
-   @Getter @Setter private int positionId;
-   @Getter @Setter private boolean complete;
+@AllArgsConstructor
+@Entity
+@Table(name="orders")
+public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter @Setter int id;
+    @OneToOne
+    @JoinColumn(name="userId")
+    @Getter @Setter User user;
+    @ManyToOne
+    @JoinColumn(name="positionId")
+    @Getter @Setter Position position;
+      @Getter @Setter boolean complete;
+
+
+
 }

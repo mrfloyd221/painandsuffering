@@ -1,39 +1,29 @@
 package com.painandsuffering.model;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.painandsuffering.controller.Views;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
  * Created by mrflo on 26.05.2017.
  */
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name="positions")
 public class Position{
-    @JsonView(Views.Public.class)
-    private int id;
-    @JsonView(Views.Public.class)
-    private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="positionId")
+    @Getter @Setter private int id;
+    @Getter @Setter private String name;
+    @Getter @Setter private int price;
 
-    public Position(){}
-    public Position(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
 
 }

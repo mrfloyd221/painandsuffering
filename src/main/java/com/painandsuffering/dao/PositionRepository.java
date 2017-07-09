@@ -36,7 +36,8 @@ public class PositionRepository implements PositionDAO {
     public List<Position> getAllPositions() {
         return positions;
     }
-    public boolean Add(Position position){
+    @Override
+    public boolean createPosition(Position position){
         if(!positions.contains(position)){
             positions.add(position);
             return true;
@@ -45,20 +46,18 @@ public class PositionRepository implements PositionDAO {
 
 
     }
-    public boolean Update(int id, Position position){
-        if(positions.contains(positions.get(id))){
-            positions.get(id).setName(position.getName());
+    @Override
+    public boolean updatePosition(Position position){
+        if(positions.contains(positions.get(position.getId()))){
+            positions.get(position.getId()).setName(position.getName());
             return true;
         }
         return false;
     }
-    public void DeleteById(int id){
+    @Override
+    public boolean deletePosition(int id){
         positions.remove(id);
+        return true;
     }
-    public void DeleteByName(String name){
-        for(Position pos : positions){
-            if(pos.getName().equals(name))
-                positions.remove(pos);
-        }
-    }
+
 }

@@ -1,9 +1,8 @@
-package com.jsonfloyd.dao;
+package com.painandsuffering.dao;
 
-import com.jsonfloyd.model.Order;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.painandsuffering.model.Order;
 import org.springframework.context.annotation.Primary;
-import org.springframework.data.repository.CrudRepository;
+
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -11,61 +10,67 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 
-@Primary
 @Repository
+@Primary
 @Transactional
-public class  OrderHibernateRepository implements OrderDao{
+public class  OrderHibernateRepository implements OrderDAO {
 
 
-   @PersistenceContext
+@PersistenceContext
     private EntityManager entityManager;
     @Override
-    public void addOrder(Order order) {
+    public boolean createOrder(Order order) {
         entityManager.persist(order);
+        return true;
     }
 
     @Override
-    public void removeOrderById(int id) {
-        entityManager.remove(getOrderById(id));
+    public boolean deleteOrder(int id) {
+        Order order = entityManager.find(Order.class, id);
+        if(order == null)
+            return false;
+        entityManager.remove(order);
+        return true;
     }
 
     @Override
-    public void updateOrder(Order order) throws Exception{
-        if(isOrderExist(order.getUserId(), order.getPositionId())){
-
-            throw new Exception("Order already exist");
-        }
-        else{
+    public boolean updateOrder(Order order) {
+        if (isOrderExist(order.getUser().getId(), order.getPosition().getId())) {
+            return false;
+        } else {
             entityManager.merge(order);
+            return true;
         }
-       /* Order target = getOrderById(order.getId());
+    /* Order target = getOrderById(order.getId());
         target.setUserId(order.getUserId());
         target.setPositionId(order.getPositionId());
-        entityManager.flush();*/
+        entityManager.flush(); */
     }
 
-    @Override
-    public Order getOrderById(int id) {
-        return entityManager.find(Order.class, id);
-    }
+        @Override
+        public Order getOrderById ( int id){
+            return entityManager.find(Order.class, id);
+        }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<Order> getOrdersByUserId(int userId) {
-        String hql = "FROM Order o WHERE o.userId=:userId";
-        return entityManager.createQuery(hql, Order.class).setParameter("userId", userId).getResultList();
-    }
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<Order> getAllOrders() {
-        String hql = "FROM Order";
-        return entityManager.createQuery(hql, Order.class).getResultList();
-    }
-    @Override
-    public boolean isOrderExist(int userId, int positionId){
-        String hql = "FROM Order as o WHERE o.userId = ? and o.positionId = ?";
-        int count = entityManager.createQuery(hql).setParameter(1, userId).setParameter(2, positionId).getResultList().size();
+        @SuppressWarnings("unchecked")
+        @Override
+        public List<Order> getOrdersByUserId ( int userId){
+            String hql = "FROM Order o WHERE o.userId=:userId";
+            return entityManager.createQuery(hql, Order.class).setParameter("userId", userId).getResultList();
+        }
+        @SuppressWarnings("unchecked")
+        @Override
+        public List<Order> getAllOrders () {
+            String hql = "FROM Order";
+            return entityManager.createQuery(hql, Order.class).getResultList();
+        }
+
+
+    private boolean isOrderExist(int userId, int positionId) {
+        String hql = "FROM Order as o WHERE o.user = :userId and o.position = :positionId";
+        int count = entityManager.createQuery(hql).setParameter("userId", userId).setParameter("positionId", positionId).getResultList().size();
         return count > 0;
     }
-
 }
+
+

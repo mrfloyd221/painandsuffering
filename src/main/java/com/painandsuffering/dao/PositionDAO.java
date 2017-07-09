@@ -8,4 +8,7 @@ public interface PositionDAO {
     Position getPositionById(int id);
     Position getPositionByName(String name);
     List<Position> getAllPositions();
+    boolean createPosition(Position position);
+    boolean updatePosition(Position position);
+    boolean deletePosition(int id);
 }
