@@ -1,6 +1,6 @@
 package com.painandsuffering.dao;
 
-import com.painandsuffering.model.Position;
+import com.painandsuffering.model.Product;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -17,31 +17,31 @@ public class PositionHibernateRepository implements PositionDAO {
     @PersistenceContext
     private EntityManager entityManager;
     @Override
-    public Position getPositionById(int id) {
-        return entityManager.find(Position.class, id);
+    public Product getPositionById(int id) {
+        return entityManager.find(Product.class, id);
     }
 
     @Override
-    public Position getPositionByName(String name) {
-        return entityManager.find(Position.class, name);
+    public Product getPositionByName(String name) {
+        return entityManager.find(Product.class, name);
     }
 
     @Override
-    public List<Position> getAllPositions() {
+    public List<Product> getAllPositions() {
         String hql = "FROM Position";
-        return entityManager.createQuery(hql, Position.class).getResultList();
+        return entityManager.createQuery(hql, Product.class).getResultList();
     }
 
     @Override
-    public boolean createPosition(Position position) {
-        entityManager.persist(position);
+    public boolean createPosition(Product product) {
+        entityManager.persist(product);
         return true;
     }
 
     @Override
-    public boolean updatePosition(Position position) {
-        if(isPositionExist(position.getName(),position.getPrice())){
-            entityManager.merge(position);
+    public boolean updatePosition(Product product) {
+        if(isPositionExist(product.getName(), product.getPrice())){
+            entityManager.merge(product);
             return true;
         }
         return false;
@@ -49,10 +49,10 @@ public class PositionHibernateRepository implements PositionDAO {
 
     @Override
     public boolean deletePosition(int id) {
-        Position position = entityManager.find(Position.class, id);
-        if(position == null)
+        Product product = entityManager.find(Product.class, id);
+        if(product == null)
             return false;
-        entityManager.remove(position);
+        entityManager.remove(product);
         return true;
     }
     private boolean isPositionExist(String name, int price) {

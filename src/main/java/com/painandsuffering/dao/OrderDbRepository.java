@@ -1,7 +1,8 @@
 package com.painandsuffering.dao;
 
 import com.painandsuffering.model.Order;
-import com.painandsuffering.model.Position;
+import com.painandsuffering.model.OrderStatus;
+import com.painandsuffering.model.Product;
 import com.painandsuffering.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -42,8 +43,8 @@ public class OrderDbRepository implements OrderDAO{
         Order aOrder = new Order();
         aOrder.setId(rs.getInt("id"));
         aOrder.setUser(((User)rs.getObject("userId")));
-        aOrder.setPosition((Position)rs.getObject("positionId"));
-        aOrder.setComplete(rs.getBoolean("complete"));
+        aOrder.setProduct((Product)rs.getObject("positionId"));
+        aOrder.setStatus((OrderStatus)rs.getObject("complete"));
         return aOrder;
     }
     @Override
@@ -63,7 +64,7 @@ public class OrderDbRepository implements OrderDAO{
 
     @Override
     public boolean createOrder(Order order) {
-        this.jdbcTemplate.update("INSERT INTO orders(user_id,position_id,complete) VALUES (?, ?, ?)" ,order.getUser().getId(),order.getPosition().getId(), order.isComplete());
+        this.jdbcTemplate.update("INSERT INTO orders(user_id,position_id,complete) VALUES (?, ?, ?)" ,order.getUser().getId(),order.getProduct().getId(), order.getStatus());
         return true;
     }
 
@@ -71,7 +72,7 @@ public class OrderDbRepository implements OrderDAO{
     public boolean updateOrder(Order order) {
         String sql;
         sql ="UPDATE orders SET user_id = ?,position_id = ?, complete = ? WHERE id=?;";
-        this.jdbcTemplate.update(sql, order.getUser().getId(), order.getPosition().getId(), order.isComplete(), order.getId());
+        this.jdbcTemplate.update(sql, order.getUser().getId(), order.getProduct().getId(), order.getStatus(), order.getId());
         return true;
 
     }

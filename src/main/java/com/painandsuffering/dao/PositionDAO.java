@@ -1,14 +1,14 @@
 package com.painandsuffering.dao;
-import com.painandsuffering.model.Position;
+import com.painandsuffering.model.Product;
 import java.util.List;
 /**
  * Created by mrflo on 28.05.2017.
  */
 public interface PositionDAO {
-    Position getPositionById(int id);
-    Position getPositionByName(String name);
-    List<Position> getAllPositions();
-    boolean createPosition(Position position);
-    boolean updatePosition(Position position);
+    Product getPositionById(int id);
+    Product getPositionByName(String name);
+    List<Product> getAllPositions();
+    boolean createPosition(Product product);
+    boolean updatePosition(Product product);
     boolean deletePosition(int id);
 }

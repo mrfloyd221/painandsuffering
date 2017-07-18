@@ -15,10 +15,10 @@ public class UserRepository implements UserDAO{
 
     public UserRepository() {
         this.users = new ArrayList<User>();
-        users.add(new User(0,"Jhon", new ArrayList<Order>()));
-        users.add(new User(1,"Peter", new ArrayList<Order>()));
-        users.add(new User(2,"David", new ArrayList<Order>()));
-        users.add(new User(3,"Pepe", new ArrayList<Order>()));
+        users.add(new User(0,"Jhon"));
+        users.add(new User(1,"Peter"));
+        users.add(new User(2,"David"));
+        users.add(new User(3,"Pepe"));
     }
 
     @Override

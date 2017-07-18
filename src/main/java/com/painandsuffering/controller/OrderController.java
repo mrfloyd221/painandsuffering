@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sun.plugin.dom.html.HTMLParagraphElement;
 
 import java.util.List;
 
@@ -45,8 +46,9 @@ public class OrderController {
     }
     @RequestMapping(value="/shop/orders/{id}", method = RequestMethod.DELETE, produces = "application/json;charset=UTF-8")
     public ResponseEntity removeOrderById(@PathVariable int id){
-        orderService.deleteOrder(id);
-        return new ResponseEntity(HttpStatus.OK);
+        if(orderService.deleteOrder(id))
+            return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
 

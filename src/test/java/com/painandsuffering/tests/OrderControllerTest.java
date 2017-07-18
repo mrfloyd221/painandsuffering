@@ -1,9 +1,8 @@
 package com.painandsuffering.tests;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.spi.json.JacksonJsonProvider;
-import com.painandsuffering.model.Order;
-import com.painandsuffering.model.Position;
-import com.painandsuffering.model.User;
+import com.painandsuffering.model.*;
+import com.painandsuffering.model.Product;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.autoconfigure.jdbc.EmbeddedDatabaseConnection;
@@ -12,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import com.painandsuffering.controller.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,12 +46,7 @@ public class OrderControllerTest {
     @Before
     public void setup() throws Exception {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-        User vlad = new User(2,"vova", new ArrayList<Order>());
-        User kapri = new User(2,"kapri", new ArrayList<Order>());
-        Position pos1 = new Position(1, "lama", 100);
-        Position pos2 = new Position(2, "kapra", 200);
-            mockMvc.perform(post("/shop/orders/").content(asJsonString(new Order(1, vlad, pos1, true))));
-        mockMvc.perform(post("/shop/orders/").content(asJsonString(new Order(1, kapri, pos2, false))));
+
 
     }
     @Test
@@ -70,9 +65,9 @@ public class OrderControllerTest {
     @Test
     public void postOrder() throws Exception{
         Order order = new Order();
-        order.setUser(new User(1, "vova", new ArrayList<Order>()));
-        order.setPosition(new Position(1, "tea", 400));
-        order.setComplete(true);
+        order.setUser(new User(1, "vova"));
+        order.setProduct(new Product(1, "tea", 400));
+        order.setStatus(OrderStatus.ACCEPTED);
         this.mockMvc.perform(post("/shop/orders/").content(asJsonString(order))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.ALL))
@@ -85,7 +80,7 @@ public class OrderControllerTest {
     }
     @Test
     public void updateOrder() throws Exception{
-        Order order = new Order(1, new User(2, "sasha", new ArrayList<Order>()), new Position(3, "apple", 40), true);
+        Order order = new Order(1, new User(2, "sasha"), new Product(3, "apple", 40), OrderStatus.DENY);
 
 
         this.mockMvc.perform(put("/shop/orders/")
@@ -93,10 +88,7 @@ public class OrderControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.ALL))
                 .andExpect(status().isAccepted())
-                .andExpect(content().contentType(MediaType.parseMediaType("application/json;charset=UTF-8")))
-                .andExpect(jsonPath("$.userId").value(2))
-                .andExpect(jsonPath("$.positionId").value(3))
-                .andExpect(jsonPath("$.complete").value(true));
+                .andExpect(content().contentType(MediaType.parseMediaType("application/json;charset=UTF-8")));
     }
     @Test
     public void deleteOrder() throws Exception{

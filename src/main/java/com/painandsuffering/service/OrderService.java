@@ -39,7 +39,7 @@ public class OrderService {
     public boolean contains(Order order){
         List<Order> list = orderDao.getAllOrders();
         for(Order o : list){
-            if(o.getUser().getId() == order.getUser().getId() && o.getPosition().getId() == order.getPosition().getId() && o.isComplete() == order.isComplete())
+            if(o.getUser().getId() == order.getUser().getId() && o.getProduct().getId() == order.getProduct().getId() && o.getStatus() == order.getStatus())
                 return true;
         }
         return false;

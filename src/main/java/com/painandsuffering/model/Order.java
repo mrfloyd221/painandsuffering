@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 
 import javax.persistence.*;
@@ -14,20 +15,27 @@ import javax.persistence.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Entity(name="Order")
 @Table(name="orders")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter @Setter int id;
-    @OneToOne
-    @JoinColumn(name="userId")
-    @Getter @Setter User user;
+    @GeneratedValue(generator="increment")
+    @GenericGenerator(name="increment", strategy = "increment")
+    @Column(name="order_id")
+    @Getter @Setter Integer id;
     @ManyToOne
-    @JoinColumn(name="positionId")
-    @Getter @Setter Position position;
-      @Getter @Setter boolean complete;
+    @JoinColumn(name="user_id")
+    @Getter @Setter User user;
+
+    @ManyToOne
+    @JoinColumn(name="product_id")
+    @Getter @Setter
+    Product product;
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "status")
+      @Getter @Setter OrderStatus status;
 
 
 
 }
+
