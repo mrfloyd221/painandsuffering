@@ -23,11 +23,11 @@ public class Order {
     @GenericGenerator(name="increment", strategy = "increment")
     @Column(name="order_id")
     @Getter @Setter Integer id;
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name="user_id")
     @Getter @Setter User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name="product_id")
     @Getter @Setter
     Product product;

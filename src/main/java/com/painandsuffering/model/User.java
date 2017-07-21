@@ -27,4 +27,6 @@ public class User{
     @Getter @Setter private Integer id;
     @Column(name="username")
     @Getter @Setter private String name;
+
+
 }
