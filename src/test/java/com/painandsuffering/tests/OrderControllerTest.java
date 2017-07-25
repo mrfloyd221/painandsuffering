@@ -65,8 +65,13 @@ public class OrderControllerTest {
     @Test
     public void postOrder() throws Exception{
         Order order = new Order();
-        order.setUser(new User(1, "vova"));
-        order.setProduct(new Product(1, "tea", 400));
+        User user = new User();
+        Product prod = new Product();
+        prod.setName("tea");
+        prod.setPrice(400);
+        user.setName("vova");
+        order.setUser(user);
+        order.setProduct(prod);
         order.setStatus(OrderStatus.ACCEPTED);
         this.mockMvc.perform(post("/shop/orders/").content(asJsonString(order))
                 .contentType(MediaType.APPLICATION_JSON)
